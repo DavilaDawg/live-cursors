@@ -8,7 +8,6 @@ export const Login = ({ onSubmit, setColorProp }) => {
   useEffect(() => {
     if (username && !color) {
       const newColor = randomColor()
-      console.log("Generated color:", newColor);
       setColor(newColor);
     }
   }, [username, color]);

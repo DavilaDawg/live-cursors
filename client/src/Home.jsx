@@ -25,7 +25,9 @@ const renderUsersList = (users) => {
 export const Home = ({ username, color }) => {
   const [otherUsers, setOtherUsers] = useState({});
 
-  const WS_URL = "ws://localhost:8000";
+  // const WS_URL = "ws://localhost:8000";
+  const WS_URL = "https://live-cursors-app-oep6.vercel.app/";
+
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     queryParams: { username },
   });
@@ -62,9 +64,16 @@ export const Home = ({ username, color }) => {
 
   return (
     <>
-      {renderCursors(otherUsers, color)}
-      {renderUsersList(otherUsers)}
       <h1>Hello, {username}</h1>
+      <p>Current users:</p>
+      {Object.keys(otherUsers).length === 0 ? (
+        <p>No other users online.</p>
+      ) : (
+        <>
+          {renderUsersList(otherUsers)}
+          {renderCursors(otherUsers, color)}
+        </>
+      )}
     </>
   );
 };
