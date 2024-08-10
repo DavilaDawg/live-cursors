@@ -26,7 +26,7 @@ const renderUsersList = users => {
 export const Home = ({ username }) => {
   const WS_URL = "ws://localhost:8000";
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
-    queryParams: { username }, // lets us pass username as query param to server
+    queryParams: { username }, 
   });
 
   const THROTTLE = 40;
@@ -34,12 +34,10 @@ export const Home = ({ username }) => {
   const sendJsonMessageThrottled = useRef(throttle(sendJsonMessage, THROTTLE));
 
   useEffect(() => {
-    // ask server to send everyones state the component reloads 
     sendJsonMessage({
         x:0,
         y:0
     })
-
     window.addEventListener("mousemove", (e) => {
       sendJsonMessageThrottled.current({
         x: e.clientX,

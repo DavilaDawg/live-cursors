@@ -1,5 +1,3 @@
-// components/Cursor
-
 import * as React from "react"
 import { usePerfectCursor } from "../hooks/useCursor"
 
