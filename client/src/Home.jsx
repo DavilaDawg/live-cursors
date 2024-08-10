@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import throttle from "lodash.throttle";
 import { Cursor } from "./components/Cursor";
 
-const renderCursors = (users, color) => {
-  return Object.keys(users).map((uuid) => {
-    const user = users[uuid];
-    console.log("home color", color);
+const renderCursors = (users, color, currentId) => {
+  return Object.keys(users)
+    .filter((uuid) => uuid !== currentId)
+    .map((uuid) => {
+      const user = users[uuid];
 
-    return (
-      <Cursor key={uuid} point={[user.state.x, user.state.y]} color={color} />
-    );
-  });
+      return (
+        <Cursor key={uuid} point={[user.state.x, user.state.y]} color={color} />
+      );
+    });
 };
 
 const renderUsersList = (users) => {
@@ -25,6 +26,8 @@ const renderUsersList = (users) => {
 };
 
 export const Home = ({ username, color }) => {
+  const [currentId, setCurrentId] = useState(null);
+
   const WS_URL = "ws://localhost:8000";
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     queryParams: { username },
@@ -37,7 +40,7 @@ export const Home = ({ username, color }) => {
   useEffect(() => {
     sendJsonMessage({
       x: 0,
-      y: 0,
+      y: 0
     });
     window.addEventListener("mousemove", (e) => {
       sendJsonMessageThrottled.current({
@@ -46,6 +49,13 @@ export const Home = ({ username, color }) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (lastJsonMessage && !currentId) {
+      setCurrentId(lastJsonMessage.currentId);
+    }
+  }, [lastJsonMessage, currentId]);
+
 
   if (lastJsonMessage) {
     return (

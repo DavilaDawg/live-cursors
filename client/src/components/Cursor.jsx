@@ -24,8 +24,8 @@ export function Cursor({ point, color }) {
         position: "absolute",
         top: -15,
         left: -15,
-        width: 35,
-        height: 35,
+        width: 40,
+        height: 40,
       }}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 35 35"
