@@ -25,14 +25,14 @@ const renderUsersList = (users) => {
 export const Home = ({ username, color }) => {
   const [otherUsers, setOtherUsers] = useState({});
 
-  // const WS_URL = "ws://localhost:8000";
-  const WS_URL = "https://live-cursors-app-oep6.vercel.app/";
+    const WS_URL = "ws://localhost:8000";
+  // const WS_URL = "https://live-cursors-app-oep6.vercel.app/";
 
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(WS_URL, {
     queryParams: { username },
   });
 
-  const THROTTLE = 40;
+  const THROTTLE = 10;
 
   const sendJsonMessageThrottled = useRef(throttle(sendJsonMessage, THROTTLE));
 
